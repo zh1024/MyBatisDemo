@@ -6,3 +6,4 @@
 
 [003.MyBatis和Hibernate本质区别和应用场景](docs/003.MyBatis和Hibernate本质区别和应用场景.md)
 
+[004.MyBatis开发dao-mapper代理方法](docs/004.MyBatis开发dao-mapper代理方法.md)
