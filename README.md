@@ -4,3 +4,5 @@
 
 [002.入门程序](docs/002.入门程序.md)
 
+[003.MyBatis和Hibernate本质区别和应用场景](docs/003.MyBatis和Hibernate本质区别和应用场景.md)
+
