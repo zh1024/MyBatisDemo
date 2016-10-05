@@ -3,8 +3,13 @@ package com.jimmy.mybatis.mapper;
 import java.util.List;
 
 import com.jimmy.mybatis.po.User;
+import com.jimmy.mybatis.po.UserCustom;
+import com.jimmy.mybatis.po.UserQueryVo;
 
 public interface UserMapper {
+	
+	//用户信息综合查询
+	public List<UserCustom> findUserList(UserQueryVo userQueryVo) throws Exception;
 	
 	//根据id查询用户
 	public User findUserById(int id) throws Exception;

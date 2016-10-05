@@ -9,3 +9,6 @@
 [004.MyBatis开发dao-mapper代理方法](docs/004.MyBatis开发dao-mapper代理方法.md)
 
 [005.SqlMapperConfig.xml](docs/005.SqlMapperConfig.xml.md)
+
+[006.传入pojo包装对象](docs/006.传入pojo包装对象.md)
+

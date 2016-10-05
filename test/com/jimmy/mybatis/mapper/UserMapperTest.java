@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jimmy.mybatis.po.User;
+import com.jimmy.mybatis.po.UserCustom;
+import com.jimmy.mybatis.po.UserQueryVo;
 
 public class UserMapperTest {
 	
@@ -25,6 +27,31 @@ public class UserMapperTest {
 		
 		//创建会话工厂SqlSessionFactory，需要传入MyBatis的配置文件信息
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		
+	}
+
+	@Test
+	public void testFindUserList() throws Exception {
+		
+		//通过会话工厂得到会话SqlSession
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		//创建UserMapper对象，MyBatis自动生成mapper代理对象
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		
+		UserQueryVo userQueryVo = new UserQueryVo();
+		UserCustom userCustom = new UserCustom();
+		userCustom.setSex("1");
+		userCustom.setUsername("张");
+		userQueryVo.setUserCustom(userCustom);
+		
+		//测试userMapper的方法
+		List<UserCustom> users = userMapper.findUserList(userQueryVo);
+		
+		//释放资源
+		sqlSession.close();
+		
+		System.out.println(users);
 		
 	}
 
@@ -46,7 +73,7 @@ public class UserMapperTest {
 		System.out.println(user);
 		
 	}
-
+	
 	@Test
 	public void testFindUserByName() throws Exception {
 		
