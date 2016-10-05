@@ -31,6 +31,25 @@ public class UserMapperTest {
 	}
 
 	@Test
+	public void testFindUserByIdResultMap() throws Exception {
+		
+		//通过会话工厂得到会话SqlSession
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		//创建UserMapper对象，MyBatis自动生成mapper代理对象
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		
+		//测试userMapper的方法
+		User user = userMapper.findUserByIdResultMap(1);
+		
+		//释放资源
+		sqlSession.close();
+		
+		System.out.println(user);
+		
+	}
+
+	@Test
 	public void testFindUserList() throws Exception {
 		
 		//通过会话工厂得到会话SqlSession
@@ -54,7 +73,7 @@ public class UserMapperTest {
 		System.out.println(users);
 		
 	}
-
+	
 	@Test
 	public void testFindUserById() throws Exception {
 		

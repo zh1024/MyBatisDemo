@@ -9,6 +9,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.jimmy.mybatis.mapper.UserMapper">
 
 	<!-- 
+		定义resultMap
+		将SELECT id id_,username username_ FROM USER查询结果的列名和User类中的属性名做一个映射关系
+		type：resultMap最终映射的java对象类型，可以使用别名
+		id：resultMap的唯一标识
+	 -->
+	<resultMap type="user" id="userHashMap">
+		<!-- 
+			<id>：表示查询结果集中的唯一标识列（主键）
+			column：查询结果的列名
+			property：上面type指定的pojo类型中的属性名
+		 -->
+		<id column="id_" property="id"/>
+		<!-- 
+			<result>：表示查询结果集中的普通列（主键以外的其他列）
+			column：查询结果的列名
+			property：上面type指定的pojo类型中的属性名
+		 -->
+		<result column="username_" property="username"/>
+	</resultMap>
+
+	<!-- 
+		使用resultMap进行输出映射
+		resultMap：指定定义的resultMap的id，如果这个resultMap在其他的mapper文件中，前边需要加namespace
+	 -->
+	<select id="findUserByIdResultMap" parameterType="int" resultMap="userHashMap">
+		SELECT id id_, username username_ FROM USER WHERE id = #{id}
+	</select>
+	
+	<!-- 
 		用户信息综合查询
 		#{userCustom.sex}：取出pojo包装对象中性别值
 		${userCustom.username}：取出pojo包装对象中用户名称

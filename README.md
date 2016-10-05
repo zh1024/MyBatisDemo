@@ -10,5 +10,6 @@
 
 [005.SqlMapperConfig.xml](docs/005.SqlMapperConfig.xml.md)
 
-[006.传入pojo包装对象](docs/006.传入pojo包装对象.md)
+[006.输入映射](docs/006.输入映射.md)
 
+[007.输出映射](docs/007.输出映射.md)
