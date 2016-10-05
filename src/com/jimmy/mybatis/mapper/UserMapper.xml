@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			如果输入参数是简单类型，#{}中的参数名可以任意，
 		resultType：指定sql输出结果中单条记录所映射的Java对象类型
 	 -->
-	<select id="findUserById" parameterType="int" resultType="com.jimmy.mybatis.po.User">
+	<select id="findUserById" parameterType="int" resultType="user">
 		SELECT * FROM USER WHERE id = #{id}
 	</select>
 	
