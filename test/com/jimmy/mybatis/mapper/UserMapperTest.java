@@ -1,6 +1,8 @@
 package com.jimmy.mybatis.mapper;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -59,10 +61,15 @@ public class UserMapperTest {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		
 		UserQueryVo userQueryVo = new UserQueryVo();
+		
 		UserCustom userCustom = new UserCustom();
 		userCustom.setSex("1");
 		userCustom.setUsername("张");
 		userQueryVo.setUserCustom(userCustom);
+		
+		Integer[] array = {1, 10, 16};
+		List<Integer> ids = Arrays.asList(array);
+		userQueryVo.setIds(ids);
 		
 		//测试userMapper的方法
 		List<UserCustom> users = userMapper.findUserList(userQueryVo);

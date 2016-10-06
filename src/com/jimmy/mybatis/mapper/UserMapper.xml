@@ -9,6 +9,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.jimmy.mybatis.mapper.UserMapper">
 
 	<!-- 
+		定义sql片段
+		经验：基于单表来定义sql片段，这样重用性高；sql片段中不要包含where			
+	 -->
+	<sql id="query_user_where">
+		<if test="userCustom != null">
+			<if test="userCustom.sex != null and userCustom.sex != ''">
+				AND user.sex = #{userCustom.sex}
+			</if>
+			<if test="userCustom.username != null and userCustom.username != ''">
+				AND user.username LIKE '%${userCustom.username}%'
+			</if>
+			<if test="ids != null">
+				<!-- 
+					使用<foreach>遍历ids
+					collection：指定输入对象中的集合属性
+					item：每次遍历生成对象
+					open：开始遍历时拼接的串
+					close：结束遍历时拼接的串
+					separator：遍历两个对象之间需要拼接的串
+				 -->
+				<foreach collection="ids" item="uid" open="AND id IN (" close=")" separator=",">
+					#{uid}
+				</foreach>
+			</if>
+		</if>
+	</sql>
+
+	<!-- 
 		定义resultMap
 		将SELECT id id_,username username_ FROM USER查询结果的列名和User类中的属性名做一个映射关系
 		type：resultMap最终映射的java对象类型，可以使用别名
@@ -45,7 +73,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findUserList" 
 		parameterType="UserQueryVo" 
 		resultType="UserCustom">
-		SELECT * FROM USER WHERE user.sex = #{userCustom.sex} AND user.username LIKE '%${userCustom.username}%'
+		SELECT * FROM USER
+		<where>
+		<!-- 引用sql片段，如果refid指定的id不在本mapper文件中，需要加上namespace -->
+		<include refid="query_user_where"></include>
+		<!-- 在这里还可以引用其他的sql片段 -->
+		</where>
 	</select>
 
 	<!-- 
