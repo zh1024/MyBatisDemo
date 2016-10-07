@@ -42,6 +42,25 @@ public class OrdersMapperCustomTest {
 		System.out.println(list);
 		
 	}
+	
+	@Test
+	public void testFindOrderUserLL() throws Exception {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+		
+		List<Orders> list = ordersMapperCustom.findOrderUserLL();
+		
+		for (Orders order : list) {
+			order.getUser();
+		}
+		
+		System.out.println(list);
+		
+		sqlSession.close();
+		
+		
+	}
 
 	@Test
 	public void testFindOrdersUserResultMap() throws Exception {

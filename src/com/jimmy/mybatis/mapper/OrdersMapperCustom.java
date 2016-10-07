@@ -15,4 +15,7 @@ public interface OrdersMapperCustom {
 	public List<Orders> findOrdersAndDetailsResultMap() throws Exception;
 	
 	public List<User> findUserAndItemResultMap() throws Exception;
+	
+	public List<Orders> findOrderUserLL() throws Exception;
+	
 }

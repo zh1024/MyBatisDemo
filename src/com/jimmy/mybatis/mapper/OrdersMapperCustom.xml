@@ -136,4 +136,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE orders.user_id = user.id AND orders.id = orderdetail.orders_id AND items.id = orderdetail.items_id
 	</select>
 	
+	<!--  -->
+	<resultMap type="Orders" id="orderUserLLResultMap">
+		<!-- 订单信息 -->
+		<id column="id" property="id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<result column="note" property="note"/>
+		<!-- 
+			用户信息延迟加载
+			select：指定延迟加载需要执行的statement的id
+			column：订单信息中关联查询用户信息所关联的列user_id
+		 -->
+		<association property="user" javaType="com.jimmy.mybatis.po.User" 
+			select="com.jimmy.mybatis.mapper.UserMapper.findUserById" column="user_id">
+		</association>
+	</resultMap>
+	
+	<!-- 查询订单关联查询用户，用户信息需要延迟加载 -->
+	<select id="findOrderUserLL" resultMap="orderUserLLResultMap">
+		SELECT * FROM orders
+	</select>
+	
+
 </mapper>
