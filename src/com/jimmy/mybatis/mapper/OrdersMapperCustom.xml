@@ -29,6 +29,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="address" property="address"/>
 		</association>
 	</resultMap>
+	
+	<!-- 
+		订单及订单明细的resultMap
+		使用extends继承，不用再配置订单信息和用户信息的映射
+	 -->
+	<resultMap type="Orders" id="ordersAndDetailsResultMap" extends="ordersResultMap">
+	
+		<!-- 
+			订单明细信息
+			一个订单关联多条明细，要使用<collection>进行映射
+			<collection>：对关联查询到的多条记录映射到集合对象中
+			property：将关联查询到的多条记录映射到Orders的哪个属性中
+			ofType：指定映射到List集合属性中pojo的类型
+		 -->
+		<collection property="orderdetails" ofType="com.jimmy.mybatis.po.Orderdetail">
+			<id column="orderdetail_id" property="id"/>
+			<result column="id" property="ordersId"/>			
+			<result column="items_id" property="itemsId"/>
+			<result column="items_num" property="itemsNum"/>
+		</collection>
+		
+	</resultMap>
+
+	<!-- 
+		查询用户及购买的商品
+	 -->
+	<resultMap type="User" id="userAndItemResultMap">
+		<!-- 用户信息 -->
+		<id column="user_id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="birthday" property="birthday"/>
+		<result column="sex" property="sex"/>
+		<result column="address" property="address"/>
+		<!-- 订单信息 -->
+		<collection property="orders" ofType="Orders">
+			<id column="id" property="id"/>
+			<result column="user_id" property="user_id"/>
+			<result column="number" property="number"/>
+			<result column="createtime" property="createtime"/>
+			<result column="note" property="note"/>
+			<!-- 订单明细 -->
+			<collection property="orderdetails" ofType="Orderdetail">
+				<id column="orderdetail_id" property="id"/>
+				<result column="id" property="ordersId"/>
+				<result column="items_id" property="itemsId"/>
+				<result column="items_num" property="itemsNum"/>
+				<!-- 商品信息 -->
+				<association property="items" javaType="Items">
+					<id column="items_id" property="id"/>
+					<result column="item_name" property="name"/>
+					<result column="item_price" property="price"/>
+					<result column="item_detail" property="detail"/>
+				</association>
+			</collection>
+		</collection>
+	</resultMap>
 
 	<!-- 查询订单信息关联用户信息 -->
 	<select id="findOrdersUser" resultType="OrdersCustom">
@@ -38,6 +94,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 查询订单信息关联用户信息使用resultMap -->
 	<select id="findOrdersUserResultMap" resultMap="ordersResultMap">
 		SELECT orders.*,user.username, user.birthday,user.sex,user.address FROM orders, user WHERE orders.user_id = user.id
-	</select>	
+	</select>
+	
+	<!-- 查询订单信息关联用户信息使用resultMap -->
+	<select id="findOrdersAndDetailsResultMap" resultMap="ordersAndDetailsResultMap">
+		SELECT 
+		  orders.*,
+		  user.username,
+		  user.birthday,
+		  user.sex,
+		  user.address,
+		  orderdetail.id orderdetail_id,
+		  orderdetail.items_id,
+		  orderdetail.items_num
+		FROM
+		  orders,
+		  USER,
+		  orderdetail
+		WHERE orders.user_id = user.id AND orders.id = orderdetail.orders_id
+	</select>
+	
+	<!-- 查询用户关联商品信息使用resultMap -->
+	<select id="findUserAndItemResultMap" resultMap="userAndItemResultMap">
+		SELECT 
+		  orders.*,
+		  user.username,
+		  user.birthday,
+		  user.sex,
+		  user.address,
+		  orderdetail.id orderdetail_id,
+		  orderdetail.items_id,
+		  orderdetail.items_num,
+		  items.name item_name,
+		  items.price item_price,
+		  items.detail item_detail
+		FROM
+		  orders,
+		  USER,
+		  orderdetail,
+		  items
+		WHERE orders.user_id = user.id AND orders.id = orderdetail.orders_id AND items.id = orderdetail.items_id
+	</select>
 	
 </mapper>
