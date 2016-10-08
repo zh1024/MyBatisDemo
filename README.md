@@ -21,3 +21,5 @@
 [010.延迟加载](docs/010.延迟加载.md)
 
 [011.查询缓存](docs/011.查询缓存.md)
+
+[012.Spring和MyBatis整合](docs/012.Spring和MyBatis整合.md)
