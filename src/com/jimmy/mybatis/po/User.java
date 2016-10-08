@@ -1,9 +1,10 @@
 package com.jimmy.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class User {
+public class User implements Serializable{
 	
 	//属性名和数据库表的字段名对应
 	private Integer id;

@@ -9,6 +9,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.jimmy.mybatis.mapper.UserMapper">
 
 	<!-- 
+		开启本mapper的namespace下的二级缓存
+		type：指定cache接口的实现类，和Ehcache整合实现类就是org.mybatis.caches.ehcache.EhcacheCache
+		还有很多设置...
+	 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+		<property name="timeToIdleSeconds" value="3600"/><!--1 hour-->
+	    <property name="timeToLiveSeconds" value="3600"/><!--1 hour-->
+	    <!-- 同ehcache参数maxElementsInMemory -->
+		<property name="maxEntriesLocalHeap" value="1000"/>
+		<!-- 同ehcache参数maxElementsOnDisk -->
+	    <property name="maxEntriesLocalDisk" value="10000000"/>
+	    <property name="memoryStoreEvictionPolicy" value="LRU"/>
+	</cache>
+
+	<!-- 
 		定义sql片段
 		经验：基于单表来定义sql片段，这样重用性高；sql片段中不要包含where			
 	 -->
